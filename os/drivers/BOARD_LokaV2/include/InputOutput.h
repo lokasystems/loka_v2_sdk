@@ -25,6 +25,8 @@ extern "C" {
 #define BUTTON  						GPIO_NUM_35
 #define LED 							GPIO_NUM_0
 
+#define ACC_INT  						GPIO_NUM_34
+
 #define GPIO2 							GPIO_NUM_2
 #define GPIO4 							GPIO_NUM_4
 #define GPIO13							GPIO_NUM_13

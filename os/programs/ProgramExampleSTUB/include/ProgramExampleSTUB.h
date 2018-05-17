@@ -1,13 +1,13 @@
 //**********************************************************************************************************************************
-// Filename: ProgramExample.h
+// Filename: ProgramExampleSTUB.h
 // Date: 09.05.2018
 // Author: Joao Pombas
 // Company: LOKA SYSTEMS
 // Version: 1.0
 // Description:
 //**********************************************************************************************************************************
-#ifndef PROGRAM_EXAMPLE_H_
-#define PROGRAM_EXAMPLE_H_
+#ifndef PROGRAM_EXAMPLE_STUB_H_
+#define PROGRAM_EXAMPLE_STUB_H_
 
 
 //**********************************************************************************************************************************
@@ -26,12 +26,13 @@
 //**********************************************************************************************************************************
 
 #define DEFAULT_SLEEP_TIME		30											// seconds
-#define MY_PROGRAM_TAG			"examplePrg"
+#define DEFAULT_TEMP_INTER		2
+#define MY_STUB_PROGRAM_TAG		"STUBPrg"
 
 //**********************************************************************************************************************************
 //                                                     Templates Section
 //**********************************************************************************************************************************
-class ProgramExample : public Program{
+class ProgramExampleSTUB : public Program{
 
 	public:																	// MANDATORY METHODS to the normal program behavior
 		void setup ();
@@ -44,11 +45,14 @@ class ProgramExample : public Program{
         char* getProgramTAG();
         bool isExecutable();
 
+        static int currentTemperature;
+        static unsigned long mySleepingTime;
+        static unsigned char temperatureInterval;
+
 	private:
         static unsigned long nextWakeUpTime;								// MANDATORY variables to the normal program behavior
         static bool executable;
 
-        static unsigned long mySleepingTime;
 };
 
 #endif

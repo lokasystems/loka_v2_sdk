@@ -99,6 +99,8 @@ void ProgramExample::setup(){
 
 		Board::pinMode(GPIO36, INPUT);												// Define GPIO36 as input to use later
 
+		Board::pinMode(ACC_INT, INPUT);
+
 		executable = true;
 	} else {																		// According IF condition above:
 		executable = false;															// Runs if no program was registered or this program
@@ -110,11 +112,8 @@ void ProgramExample::setup(){
 // Function: Program entry point
 //**********************************************************************************************************************************
 bool ProgramExample::loop() {
-	char configValue[FLASH_SIZE_MAX + 1] = {0};
 
-	Board::getFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), configValue, 0);
-
-	if(executable) {
+	if(getUptime() >= nextWakeUpTime) {
 		nextWakeUpTime += mySleepingTime; 											// PROGRAM SLEEPING TIME - in this case is passed
 																					// and dynamically changed in program config
 		// CUSTOM CODE SECTION
@@ -122,7 +121,7 @@ bool ProgramExample::loop() {
 		myIterationCounter++;
 		consoleDebug("%s:\t\t Hello, it's my [%ld] run iteration.", MY_PROGRAM_TAG, myIterationCounter);
 
-		consoleDebug("%s:\t\t UNCOMMENT CODE SECTIONS (in ProgramExample.cpp) to explore all functionality. ", MY_PROGRAM_TAG);
+		consoleDebug("%s:\t\t UNCOMMENT CODE SECTIONS (in ProgramExample.cpp) to explore all functionality.\n", MY_PROGRAM_TAG);
 
 //		//**************************************************************************************************************************
 //		// Gets Device ID, MAC and PAC
@@ -263,10 +262,18 @@ bool ProgramExample::loop() {
 //		}																			// Parameter could be replaced by other endpoint with a custom image
 //		WiFi::turnOff();
 
-
+		return true;
 	}
-	return executable;																// Is MANDATORY to program loader knows if
-}																					// the program was executed
+	return false;																// Is MANDATORY to program loader knows if
+}																				// the program was executed
+
+//**********************************************************************************************************************************
+// Header: ProgramExample::isExecutable
+// Function: Returns if program is able to execute
+//**********************************************************************************************************************************
+bool ProgramExample::isExecutable() {
+	return executable;
+}
 
 //**********************************************************************************************************************************
 // Header: ProgramExample::setNextTime

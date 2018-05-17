@@ -12,7 +12,9 @@
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
+#include "../programs/ProgramExampleSTUB/include/ProgramExampleSTUB.h"
 #include "ProgramExample.h"
+#include "ProgramExampleULP.h"
 
 //**********************************************************************************************************************************
 //                                                      Defines Section
@@ -21,4 +23,5 @@
 //REGISTER_PROGRAM(ProgramTemplate)												   // REGIST programs launched by the program loader
 
 REGISTER_PROGRAM(ProgramExample)
-
+//REGISTER_PROGRAM(ProgramExampleULP)
+//REGISTER_PROGRAM(ProgramExampleSTUB)

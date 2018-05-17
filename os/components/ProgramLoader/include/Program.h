@@ -32,6 +32,7 @@ class Program{
         virtual void getConfig(char * configBuffer);
         virtual unsigned char getProgramID();
         virtual char* getProgramTAG();
+        virtual bool isExecutable();
 
 };
 

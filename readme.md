@@ -11,29 +11,29 @@ Loka SDK
 
     -   [AppMain.h](#appmainh)
 
-    -   [BOARD_LokaV2.h](#board_lokav2h)   
+    -   [Program.h](#programh)
+
+    -   [BOARD_LokaV2.h](#board_lokav2h)
 	   
     -   [SIGFOX_Protocol.h](#sigfox_protocolh)
-	
-	-   [Program.h](#programh)
 
     -   [BootloaderConsole.h](#bootloaderconsoleh)
 	
-	-   [ConsoleInterface.h](#consoleinterfaceh)
+    -   [ConsoleInterface.h](#consoleinterfaceh)
+
+    -   [ESP32_Bluetooth.h](#esp32_bluetoothh)
 	
-	-   [ESP32_Bluetooth.h](#esp32_bluetoothh)   
-		
-	-   [ESP32_RTC.h](#esp32_rtch)   
-		
-	-   [ESP32_SerialPort.h](#esp32_serialporth)   
-		
-	-   [ESP32_SPIFFS.h](#esp32_spiffsh)   
-		
-	-   [ESP32_Wifi.h](#esp32_wifih)   
-		
-	-   [LIS3DE_Acceleration.h](#lis3de_accelerationh)   
-		
-	-   [ESP32_HTTP.h](#esp32_httph)   
+    -   [ESP32_RTC.h](#esp32_rtch)
+	
+    -   [ESP32_SerialPort.h](#esp32_serialporth)
+	
+    -   [ESP32_SPIFFS.h](#esp32_spiffsh)
+	
+    -   [ESP32_Wifi.h](#esp32_wifih)
+	
+    -   [LIS3DE_Acceleration.h](#lis3de_accelerationh)
+	
+    -   [ESP32_HTTP.h](#esp32_httph)
 
 	
 
@@ -134,7 +134,7 @@ Go to the OS folder and build:
 Upload to the board and see the execution result:
 
         make flash monitor
-
+        
 Permission issues /dev/ttyUSB0
 ------------------------------
 
@@ -200,34 +200,50 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### AppMain.h
 
-| **Method** | **Description**    		 | **Syntax** | **Parameters** 	| **Return**  |
-|------------|---------------------------|------------|-----------------|-------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | appMain 	 | LOKA firmware entry point | appMain(); | None       		| None   	  |
+
+
+#### Program.h
+
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
+| setup         | Runs every reset of the ESP32,   normally to retrieve/set state variables         | PROGRAM_NAME::setup();                              | None                                                        | None                                            |
+| loop          | Program entry point                                                               | PROGRAM_NAME::loop();                               | None                                                        | True: If program was executed. False: Otherwise |
+| getNextTime   | Retrieves the next wakeUp time, used in program loader                            | PROGRAM_NAME::getNextTime();                        | None                                                        | New program wakeup time in seconds              |
+| setNextTime   | Sets the next wakeUp time, used in program loader                                 | PROGRAM_NAME::setNextTime(unsigned long time) ;     | time: Next program wakeup time in seconds                   | None                                            |
+| setConfig     | Used in Sigfox PROTOCOL to set program configurations over the   air              | PROGRAM_NAME::setConfig(unsigned char * newConfig); | newConfig: New program configuration to set in flash        | None                                            |
+| getConfig     | Used in Sigfox PROTOCOL to get program configurations,   returned in configBuffer | PROGRAM_NAME::getConfig(char * configBuffer);       | configBuffer: The program configuration read from the flash | None                                            |
+| getProgramID  | Retrieves the program ID                                                          | PROGRAM_NAME::getProgramID();                       | None                                                        | Program ID                                      |
+| getProgramTAG | Retrieves the program TAG                                                         | PROGRAM_NAME::getProgramTAG();                      | None                                                        | Program TAG                                     |
 
 
 #### BOARD_LokaV2.h
 
-| **Method**  	| **Description**              					 | **Syntax**     																		| **Parameters** 																											| **Return** 					   |
-|---------------|------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------|
-| getMAC        | Retrieves the board MAC address                | Board::getMAC();                                                                     |                                                            None                                                           |                Board MAC address |
-| getID         | Retrieves the Sigfox id                        | Board::getID();                                                                      |                                                            None                                                           |      Board identification number |
-| getPAC        | Retrieves the Sigfox pac                       | Board::getPAC();                                                                     |                                                            None                                                           | Board porting authorization code |
-| pinMode       | Configures a GPIO pin                          | Board::pinMode(digio gpio, pin_mode mode);                                           |                                        gpio: GPIO pin. mode: Desired operation mode                                       |                             None |
-| digitalWrite  | Writes a digital value in the desired GPIO pin | Board::digitalWrite(digio gpio, uint8_t value);                                      | gpio: GPIO pin. value Desired value to wirte in the pin                                                                   | None                             |
-| digitalRead   | Reads the digital value from a GPIO pin        | Board::digitalRead(digio gpio);                                                      | gpio: GPIO pin                                                                                                            | Value read from the desired pin  |
-| blinkLED      | Blinks the built-in LED in a given pattern     | Board::blinkLED(unsigned int blinks, unsigned int time_on,   unsigned int time_off); | blinks: Number of (blink) cycles. time_on: Led time on (per   cycle). time_off: Led time off (per cycle), in milliseconds | None                             |
-| setFlash      | Sets a flash word in flash                     | Board::setFlash(const char* page, const char* name, const   char* value);            | page: Flash page name. param_s: Param name. value: Value to   save in flash                                               | None                             |
-| getFlash      | Gets a flash word from the flash               | Board::getFlash(const char* page, const char* name, char*   value);                  | page: Flash page name. param_s: Param name. value: Buffer to   save param value                                           | None                             |
-| getFlash      | Gets a flash word value from the flash         | Board::getFlash(const char* page, const char* param_s, char*   value, int index);    | page: Flash page name. param_s: Param name. value: Buffer to   save param value. index: Index position of desired value   | None                             |
-| enableWakeUp  | Enables a certain ULP wakeup mechanism         | Board::enableWakeUp(unsigned int mask);                                              | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                               | None                             |
-| disableWakeUp | Disables a certain ULP wakeup mechanism        | Board::disableWakeUp(unsigned int mask);                                             | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                               | None                             |
-| setWakeUp     | Sets a certain ULP wakeup mechanism            | Board::setWakeUp(unsigned int mask);                                                 | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                               | None                             |
-
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
+| getMAC        | Retrieves the board MAC address                | Board::getMAC();                                                                                                                      | None                                                                                                                                                                                                                                                                  | Board MAC address                |
+| getID         | Retrieves the Sigfox id                        | Board::getID();                                                                                                                       | None                                                                                                                                                                                                                                                                  | Board identification number      |
+| getPAC        | Retrieves the Sigfox pac                       | Board::getPAC();                                                                                                                      | None                                                                                                                                                                                                                                                                  | Board porting authorization code |
+| pinMode       | Configures a GPIO pin                          | Board::pinMode(digio gpio, pin_mode mode);                                                                                            | gpio: GPIO pin. mode: Desired operation mode                                                                                                                                                                                                                          | None                             |
+| digitalWrite  | Writes a digital value in the desired GPIO pin | Board::digitalWrite(digio gpio, uint8_t value);                                                                                       | gpio: GPIO pin. value Desired value to wirte in the pin                                                                                                                                                                                                               | None                             |
+| digitalRead   | Reads the digital value from a GPIO pin        | Board::digitalRead(digio gpio);                                                                                                       | gpio: GPIO pin                                                                                                                                                                                                                                                        | Value read from the desired pin  |
+| blinkLED      | Blinks the built-in LED in a given pattern     | Board::blinkLED(unsigned int blinks, unsigned int time_on1,   unsigned int time_off1, unsigned int time_on2, unsigned int time_off2); | blinks: Number of (blink) cycles. time_on1: Led time on (first   part of each cycle). time_off1: Led time off (first part of each cycle).   time_on2: Led time on (second part of each cycle). time_off2: Led time off   (second part of each cycle), in milliseconds | None                             |
+| setFlash      | Sets a flash word in flash                     | Board::setFlash(const char* page, const char* name, const   char* value);                                                             | page: Flash page name. param_s: Param name. value: Value to   save in flash                                                                                                                                                                                           | None                             |
+| getFlash      | Gets a flash word from the flash               | Board::getFlash(const char* page, const char* name, char*   value);                                                                   | page: Flash page name. param_s: Param name. value: Buffer to   save param value                                                                                                                                                                                       | None                             |
+| getFlash      | Gets a flash word value from the flash         | Board::getFlash(const char* page, const char* param_s, char*   value, int index);                                                     | page: Flash page name. param_s: Param name. value: Buffer to   save param value. index: Index position of desired value                                                                                                                                               | None                             |
+| enableWakeUp  | Enables a certain ULP wakeup mechanism         | Board::enableWakeUp(unsigned int mask);                                                                                               | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                                                                                                                                                                           | None                             |
+| disableWakeUp | Disables a certain ULP wakeup mechanism        | Board::disableWakeUp(unsigned int mask);                                                                                              | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                                                                                                                                                                           | None                             |
+| setWakeUp     | Sets a certain ULP wakeup mechanism            | Board::setWakeUp(unsigned int mask);                                                                                                  | mask: Enables a certain wakeup mode (Timer, Button, Acc or Pin   interrupt)                                                                                                                                                                                           | None                             |
+| resetWakeUp   | Sets the RTC timer next wake-up                | Board::resetWakeUp();                                                                                                                 | None                                                                                                                                                                                                                                                                  | None                             |
+| setWakeStub   | Sets the wakeup stub    method pointer         | Board::setWakeStub(void (*wakeStub)());                                                                                               | wakeStub: Pointer to the method executed in wakeup                                                                                                                                                                                                                    | None                             |
+| setWakeUpTime | Sets the RTC timer next wake-up                | Board::setWakeUpTime(unsigned int seconds);                                                                                           | second: Number of seconds to sleep                                                                                                                                                                                                                                    | None                             |
 
 #### SIGFOX_Protocol.h
 
-| **Method**  			 | **Description**               						| **Syntax**     																						| **Parameters** 																											   | **Return**	  |
-|------------------------|------------------------------------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|--------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | turnOnRadio            | Turns the SIGFOX radio on                            | SigfoxProtocol::turnOnRadio();                                                                        |                                                             None                                                             |         None |
 | turnOffRadio           | Turns the SIGFOX radio off                           | SigfoxProtocol::turnOffRadio();                                                                       | None                                                                                                                         | None         |
 | sendGPIOValue          | Sends a digital value through SIGFOX                 | SigfoxProtocol::sendGPIOValue(int gpio, char value);                                                  | gpio: GPIO pin. value: Value to send over Sigfox                                                                             | Message size |
@@ -240,24 +256,10 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 | sendAck                | Sends an acknowledge message after a SIGFOX downlink | SigfoxProtocol::sendAck();                                                                            | None                                                                                                                         | Message size |
 
 
-#### Program.h
-
-| **Method**  	| **Description**               					 								| **Syntax**     								  | **Parameters** 												| **Return** 						      		  |
-|---------------|-----------------------------------------------------------------------------------|-------------------------------------------------|-------------------------------------------------------------|-------------------------------------------------|
-| setup         | Runs every reset of the ESP32,   normally to retrieve/set state variables         | _PROGRAM::setup();                              | None                                                        | None                                            |
-| loop          | Program entry point                                                               | _PROGRAM::loop();                               | None                                                        | True: If program was executed. False: Otherwise |
-| getNextTime   | Retrieves the next wakeUp time, used in program loader                            | _PROGRAM::getNextTime();                        | None                                                        | New program wakeup time in seconds              |
-| setNextTime   | Sets the next wakeUp time, used in program loader                                 | _PROGRAM::setNextTime(unsigned long time) ;     | time: Next program wakeup time in seconds                   | None                                            |
-| setConfig     | Used in Sigfox PROTOCOL to set program configurations over the   air              | _PROGRAM::setConfig(unsigned char * newConfig); | newConfig: New program configuration to set in flash        | None                                            |
-| getConfig     | Used in Sigfox PROTOCOL to get program configurations,   returned in configBuffer | _PROGRAM::getConfig(char * configBuffer);       | configBuffer: The program configuration read from the flash | None                                            |
-| getProgramID  | Retrieves the program ID                                                          | _PROGRAM::getProgramID();                       | None                                                        | Program ID                                      |
-| getProgramTAG | Retrieves the program TAG                                                         | _PROGRAM::getProgramTAG();                      | None                                                        | Program TAG                                     |
-
-
 #### BootloaderConsole.h
 
-| **Method**  | **Description**                                   | **Syntax**                    | **Parameters** | **Return** |
-|-------------|---------------------------------------------------|-------------------------------|----------------|------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | init    	  | Initializes the Bootloader console                | BootloaderConsole::init();    | None       	   | None   	|
 | initBT   	  | Initializes the Bootloader console over Bluetooth | BootloaderConsole::initBT();  | None       	   | None   	|
 | closeBT 	  | Closes the Bootloader console over Bluetooth      | BootloaderConsole::closeBT(); | None           | None   	|
@@ -265,15 +267,15 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### ConsoleInterface.h
 
-| **Method**   | **Description**         | **Syntax**                       | **Parameters**                      | **Return** |
-|--------------|-------------------------|----------------------------------|-------------------------------------|------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | consoleDebug | Outputs a debug message | consoleDebug(char* format, ...); | format: Message to write in console | None   	   |
 
 
 #### ESP32_Bluetooth.h
 
-| **Method**  | **Description**                              | **Syntax**                                                                                                   | **Parameters**                                                                                                                                                                                     | **Return**                                            |
-|-------------|----------------------------------------------|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | init        | Initialize the Bluetooth module              | Bluetooth::init(unsigned long int boardNumber);                                                              | boardNumber: Board name shown to the others devices                                                                                                                                                | None                                                  |
 | disable     | Disables the Bluetooth module                | Bluetooth::disable();                                                                                        | None                                                                                                                                                                                               | None                                                  |
 | startSPP    | Starts the Serial Port Profile (SPP)         | Bluetooth::startSPP(void (*openCallback)(void), void   (*dataCallback)(char*), void (*closeCallback)(void)); | openCallback: Method called when occurs a pairing event.   dataCallback: Method called when module receives data from the paired device.   closeCallback: Method called when the connection closes | None                                                  |
@@ -285,8 +287,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### ESP32_RTC.h
 
-| **Method**| **Description**                         | **Syntax**                            | **Parameters**                                  | **Return**                               |
-|-----------|-----------------------------------------|---------------------------------------|-------------------------------------------------|------------------------------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | setTime   | Sets the current time of the board      | setTime(uint32_t t);                  | t: Current time in seconds                      | None                                     |
 | getUptime | Returns the time since the last boot up | getUptime();                          | None                                            | Time (in seconds) since the last boot up |
 | getTime   | Returns the current time of the board   | getTime();                            | None                                            | Current board time (in seconds)          |
@@ -296,8 +298,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### ESP32_SerialPort.h
 
-| **Method**| **Description**                                                     | **Syntax**                                                                                 | **Parameters **                                                                                              | **Return**                                             |
-|-----------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | init      | Initializes the Serial Port with the default baudrate 9600          | SerialPort::init(int id);                                                                  | id: The Serial Port Id (Default: 0)                                                                          | 1 if Success. -1 if error.                             |
 | init      | Initializes the Serial Port the specified baudrate                  | SerialPort::init(int id, long baudRate);                                                   | id: The Serial Port Id (Default: 0) baudrate: The specified   baudrate                                       | 1 if Success. -1 if error.                             |
 | init      | Initializes the SeialPort the specified baudrate and buffers   size | SerialPort::init(int id, long baudRate, unsigned long   txBuffer, unsigned long rxBuffer); | id: The Serial Port Id (Default: 0) baudrate: The specified   baudrate. txbuffer, rxbuffer: The buffers size | 1 if Success. -1 if error.                             |
@@ -315,8 +317,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### ESP32_SPIFFS.h
 
-| **Method**    | **Description**                                                     | **Syntax**                                                                                                                               | **Parameters**                                                                                                                                                                                                                                                                                     | **Return**           |
-|---------------|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | printSizeInfo | Prints the SPIFFS partition size                                    | SPIFFS::printSizeInfo();                                                                                                                 | None                                                                                                                                                                                                                                                                                               | None                 |
 | writeFile     | Write the given content in a binary file (replace file if   exists) | SPIFFS::writeFile(char* fileName, char* content, int size,   bool append);                                                               | fileName: Name of file to write. content: Data to write in the   file. size: Size of data to write. append: Open mode (Replace content or   Append)                                                                                                                                                | None                 |
 | readFile      | Read the file content if exists, return the content size            | SPIFFS::readFile(char* fileName, char** content, int size, int   offset)                                                                 | fileName: Name of file to read. content: Data read from the   file. size: Size of data to read (should coincide with read buffer size).   offset: File read offset                                                                                                                                 | Size of file content |
@@ -326,8 +328,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### ESP32_Wifi.h
 
-| **Method** | **Description**                                  | **Syntax**                                                    | **Parameters**                                               | **Return**                          |
-|------------|--------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------------|-------------------------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | turnOn     | Turns on the Wifi module                         | WiFi::turnOn();                                               | None                                                         | None                                |
 | turnOff    | Turns off the Wifi module                        | WiFi::turnOff();                                              | None                                                         | None                                |
 | scan       | Performs a scan on all channels                  | WiFi::scan(accessPoints* aps);                                | aps: Seen access points list                                 | Number of access points seen        |
@@ -337,8 +339,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 
 #### LIS3DE_Acceleration.h
 
-| **Method**     | **Description**                                                                                                                                                       | **Syntax**                                        | **Parameters**                                                                                                                    | **Return**                                                                    |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| **Method**    | **Description**                                      | **Syntax**                      | **Parameters**                                                                                                                    | **Return** |
+|---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | init           | This function should be called before of any of the   accelerometer functions, it initializes the accelerometer on one of the two   operating modes described before. | LIS3DE::init(uint8_t mode);                       | mode: Operating mode of the accelerometer, Possible Values:   1-Motion Sensing Mode 2-Acceleration Reading Mode                   | Returns one int, if the configurations was succeed 1 otherwise   returns -1   |
 | close          | Closes the SPI bus for the LIS3DE 																																	 | LIS3DE::close();                                  | None                                              																				 | None                                             							 |
 | getTemperature | Reads the temperature in the LIS3DE, returns a calibration   corrected value                                                                                          | LIS3DE::getTemperature(uint8_t raw);              | raw: Temperature value compensation                                                                                               | Temperature read from the Accelerometer                                       |
@@ -355,7 +357,5 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 |---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | networkUpdate | Performs OTA firmware update                         | HTTP::networkUpdate(char* cmd); | cmd: Custom URL to download the desired image. If empty this   method downloads a image (for this device) from the Device Manager | None   	  |
 | getFile       | This method downloads a file from the Device Manager | HTTP::getFile(char* fileName);  | fileName: Name of file to download from the DM                                                                                    | None   	  |
-
-
 
 

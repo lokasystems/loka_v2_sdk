@@ -38,6 +38,7 @@ class ProgramTemplate : public Program{
         void getConfig(char * configBuffer);
         unsigned char getProgramID();
         char* getProgramTAG();
+        bool isExecutable();
 
 	private:
         static unsigned long nextWakeUpTime;								// MANDATORY variables to the normal program behavior

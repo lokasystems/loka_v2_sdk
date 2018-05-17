@@ -6,8 +6,8 @@
 // Version: 1.0
 // Description:
 //**********************************************************************************************************************************
-#ifndef PROGRAM_EXAMPLE_H_
-#define PROGRAM_EXAMPLE_H_
+#ifndef PROGRAM_EXAMPLE_ULP_H_
+#define PROGRAM_EXAMPLE_ULP_H_
 
 
 //**********************************************************************************************************************************
@@ -25,13 +25,12 @@
 //                                                      Define Section
 //**********************************************************************************************************************************
 
-#define DEFAULT_SLEEP_TIME		30											// seconds
-#define MY_PROGRAM_TAG			"examplePrg"
+#define MY_ULP_PROGRAM_TAG		"ulpExample"
 
 //**********************************************************************************************************************************
 //                                                     Templates Section
 //**********************************************************************************************************************************
-class ProgramExample : public Program{
+class ProgramExampleULP : public Program{
 
 	public:																	// MANDATORY METHODS to the normal program behavior
 		void setup ();
@@ -47,8 +46,6 @@ class ProgramExample : public Program{
 	private:
         static unsigned long nextWakeUpTime;								// MANDATORY variables to the normal program behavior
         static bool executable;
-
-        static unsigned long mySleepingTime;
 };
 
 #endif
