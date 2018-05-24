@@ -234,12 +234,12 @@ bool ProgramExample::loop() {
 //		//**************************************************************************************************************************
 //		// Turns on the WiFi module, try to connect to the chosen AP and turns off the WiFi module
 //		//**************************************************************************************************************************
-		bool result;
-		consoleDebug("%s:\t\t Connecting to: TEST_SSID", MY_PROGRAM_TAG);
-		WiFi::turnOn();
-		result = WiFi::connectAP("TEST_SSID", "MY_APSSWORD");
-		WiFi::turnOff();
-		consoleDebug("%s:\t\t Connection attempt result: %s", MY_PROGRAM_TAG, (result ? "SUCCESS" : "FAILED"));
+//		bool result;
+//		consoleDebug("%s:\t\t Connecting to: TEST_SSID", MY_PROGRAM_TAG);
+//		WiFi::turnOn();
+//		result = WiFi::connectAP("TEST_SSID", "MY_APSSWORD");
+//		WiFi::turnOff();
+//		consoleDebug("%s:\t\t Connection attempt result: %s", MY_PROGRAM_TAG, (result ? "SUCCESS" : "FAILED"));
 //
 //
 //		//**************************************************************************************************************************
