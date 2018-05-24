@@ -26,7 +26,7 @@ class SPIFFS {
 public:
 	static void printSizeInfo();
 	static void writeFile(char* fileName, char* content, int size, bool append);
-	static int readFile(char* fileName, char** content, int size, int offset);
+	static int readFile(char* fileName, char* content, int size, int offset);
 	static void removeFile(char * fileName);
 	static void writeHistory(char* fileName, unsigned long timestamp, int numberOfElements, void* firstElement, int elementSize, bool append);
 };

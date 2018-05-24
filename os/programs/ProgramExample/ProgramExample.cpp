@@ -76,6 +76,15 @@ char* ProgramExample::getProgramTAG(){
 
 
 //**********************************************************************************************************************************
+// Header: ProgramExample::wakeupStub
+// Function: Runs every time the ESP32 wakes-up, checks conditions, may set the processor back to sleep
+//**********************************************************************************************************************************
+unsigned long RTC_IRAM_ATTR ProgramExample::wakeupStub(void){
+	return NULL;														// NULL: ignored	0: Wakes up the main processor,
+}																		// other values: (Sleep time in clock ticks)
+
+
+//**********************************************************************************************************************************
 // Header: ProgramExample::setup
 // Function: Runs every reset of the ESP32, normally to retrieve/set state variables
 //**********************************************************************************************************************************
@@ -143,7 +152,7 @@ bool ProgramExample::loop() {
 //		// Blinks the built-in LED 5 times (600ms HIGH, 300ms LOW)
 //		//**************************************************************************************************************************
 //		consoleDebug("%s:\t\t Blinking LED for 5 times", MY_PROGRAM_TAG);
-//		Board::blinkLED(5, 600, 300);
+//		Board::blinkLED(5, 600, 300, 0, 0);
 //
 //
 //		//**************************************************************************************************************************
@@ -215,7 +224,7 @@ bool ProgramExample::loop() {
 //		SPIFFS::writeFile(fileName, dataToWrite, strlen(dataToWrite), true);		// Open the  file and append the new data
 //
 //		dataReadFromFile = (char*) malloc(100);
-//		SPIFFS::readFile(fileName, &dataReadFromFile, 100, 0);										// Parameters: fileName, pointer to the read buffer,
+//		SPIFFS::readFile(fileName, dataReadFromFile, 100, 0);										// Parameters: fileName, pointer to the read buffer,
 //		consoleDebug("%s:\t\t Data read from file: \n%s", MY_PROGRAM_TAG, dataReadFromFile);		// buffer size and read (file) offset
 //		free(dataReadFromFile);
 //

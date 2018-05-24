@@ -24,16 +24,16 @@
 class Program{
     public:
         virtual void setup() = 0; 							// Runs every reset of the ESP32, normally to retrieve/set state variables
-        													// Should not be used to initialize hardware peripherals
-        virtual bool loop() = 0;							// Main code of the program
-        virtual unsigned long getNextTime();				// Retrieves/sets the time for the next execution
-        virtual void setNextTime(unsigned long time);
-        virtual void setConfig(unsigned char * newConfig);
-        virtual void getConfig(char * configBuffer);
-        virtual unsigned char getProgramID();
-        virtual char* getProgramTAG();
-        virtual bool isExecutable();
-
+															// Should not be used to initialize hardware peripherals
+		virtual bool loop() = 0;							// Main code of the program
+		virtual unsigned long getNextTime();				// Retrieves/sets the time for the next execution
+		virtual void setNextTime(unsigned long time);
+		virtual void setConfig(unsigned char * newConfig);
+		virtual void getConfig(char * configBuffer);
+		virtual unsigned char getProgramID();
+		virtual char* getProgramTAG();
+		virtual bool isExecutable();
+		virtual unsigned long wakeupStub(void);
 };
 
 template<class T> Program* program_factory(){

@@ -81,11 +81,12 @@ char* ProgramExampleSTUB::getProgramTAG(){
 	return MY_STUB_PROGRAM_TAG;											// Used in Get/Set Flash methods to identify the program
 }																		// when save the custom program configurations
 
+
 //**********************************************************************************************************************************
-// Header: ProgramTemperatureWakeupStub
-// Function: Runs every time the ESP32 wakes-up, checks for temperature variations, may set the processor back to sleep
+// Header: ProgramExampleSTUB::wakeupStub
+// Function: Runs every time the ESP32 wakes-up, checks temperature conditions, may set the processor back to sleep
 //**********************************************************************************************************************************
-void RTC_IRAM_ATTR ProgramExampleSTUBWakeupStub(void){
+unsigned long RTC_IRAM_ATTR ProgramExampleSTUB::wakeupStub(void){
 	uint64_t readTemp;
 
 	readTemp = readTemperature();													// Reads the temperature from ACC (in STUB mode)
@@ -94,17 +95,12 @@ void RTC_IRAM_ATTR ProgramExampleSTUBWakeupStub(void){
 
 	if( readTemp >= ProgramExampleSTUB::currentTemperature + ProgramExampleSTUB::temperatureInterval || \
 		readTemp <= ProgramExampleSTUB::currentTemperature - ProgramExampleSTUB::temperatureInterval){
-		esp_default_wake_deep_sleep();												// Wakes up the main processor
-		return;
+		return 0;																	// Wakes up the main processor
 	}
 
-	ProgramExampleSTUB::currentTemperature = readTemp;								// Saves the current temperature used in the next iteration
-
-	Board::setWakeUpTime(ProgramExampleSTUB::mySleepingTime);
-	Board::resetWakeUp();
-	REG_WRITE(RTC_ENTRY_ADDR_REG, (uint32_t)&ProgramExampleSTUBWakeupStub);
-	stubSleep();
+	return ProgramExampleSTUB::mySleepingTime;																		// Sleep time in clock ticks
 }
+
 
 
 //**********************************************************************************************************************************
@@ -122,9 +118,9 @@ void ProgramExampleSTUB::setup(){
 		Board::getFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), configValue, 0);		// Retrieves the program configuration values
 																					// (separated in configurations by ',')
 		if (strlen(configValue) == 0)
-			mySleepingTime = DEFAULT_SLEEP_TIME;									// Default value chosen (in seconds) for this program
-		else
-			mySleepingTime = atol(configValue);
+			mySleepingTime = Board::convertSecondsToTicks(DEFAULT_SLEEP_TIME);		// Default value chosen in ticks (BECAUSE STUB requirement)
+		else																		// for this program
+			mySleepingTime = Board::convertSecondsToTicks(atol(configValue));
 
 		Board::getFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), configValue, 1);
 		if (strlen(configValue) == 0)
@@ -153,7 +149,7 @@ bool ProgramExampleSTUB::loop() {
 	if(readTemp >= ProgramExampleSTUB::currentTemperature + ProgramExampleSTUB::temperatureInterval || \
 			readTemp <= ProgramExampleSTUB::currentTemperature - ProgramExampleSTUB::temperatureInterval){
 
-		nextWakeUpTime = getUptime() + mySleepingTime; 								// PROGRAM SLEEPING TIME - in this case is passed
+		nextWakeUpTime = getUptime() + Board::convertTicksToSeconds(mySleepingTime);// PROGRAM SLEEPING TIME - in this case is passed
 																					// and dynamically changed in program config
 		// CUSTOM CODE SECTION
 
@@ -163,12 +159,11 @@ bool ProgramExampleSTUB::loop() {
 
 		// CODE here....
 
-		Board::setWakeStub(&ProgramExampleSTUBWakeupStub);							// Set wake up stub
-		currentTemperature = readTemp;												// Sets the read temperature
+		currentTemperature = readTemp;												// Sets the read current temperature used in the next STUB iterations
 		return true;
 	}
-	return false;																// Is MANDATORY to program loader knows if
-}																				// the program was executed
+	return false;																	// Is MANDATORY to program loader knows if
+}																					// the program was executed
 
 //**********************************************************************************************************************************
 // Header: ProgramExampleSTUB::isExecutable

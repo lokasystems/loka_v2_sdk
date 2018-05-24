@@ -44,6 +44,7 @@ class ProgramExampleSTUB : public Program{
         unsigned char getProgramID();
         char* getProgramTAG();
         bool isExecutable();
+        unsigned long wakeupStub(void);
 
         static int currentTemperature;
         static unsigned long mySleepingTime;

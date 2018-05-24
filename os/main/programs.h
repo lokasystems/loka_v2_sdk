@@ -12,9 +12,9 @@
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
-#include "../programs/ProgramExampleSTUB/include/ProgramExampleSTUB.h"
 #include "ProgramExample.h"
 #include "ProgramExampleULP.h"
+#include "ProgramExampleSTUB.h"
 
 //**********************************************************************************************************************************
 //                                                      Defines Section
@@ -25,3 +25,4 @@
 REGISTER_PROGRAM(ProgramExample)
 //REGISTER_PROGRAM(ProgramExampleULP)
 //REGISTER_PROGRAM(ProgramExampleSTUB)
+

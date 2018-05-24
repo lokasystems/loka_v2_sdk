@@ -42,6 +42,7 @@ class ProgramExampleULP : public Program{
         unsigned char getProgramID();
         char* getProgramTAG();
         bool isExecutable();
+        unsigned long wakeupStub(void);
 
 	private:
         static unsigned long nextWakeUpTime;								// MANDATORY variables to the normal program behavior

@@ -14,6 +14,8 @@
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
+#include <math.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <cstring>
 
@@ -35,6 +37,7 @@
 #include "soc/rtc.h"
 #include "soc/rtc_cntl_reg.h"
 #include "soc/apb_ctrl_reg.h"
+#include "sys/time.h"
 
 extern "C" {
 	#include "rom/uart.h"
@@ -52,16 +55,18 @@ extern "C" {
 //                                                      Defined Section
 //**********************************************************************************************************************************
 
-#define FLASH_CONFIGS_PAGE	"CONFIGS"
-#define FLASH_SIZE_MAX 		32
+#define FLASH_CONFIGS_PAGE								"CONFIGS"
+#define FLASH_SIZE_MAX 									32
 
-							// Flushes UART pending data, sleeps, dummy operations until sleeping
-#define stubSleep()			while(REG_GET_FIELD(UART_STATUS_REG(0), UART_ST_UTX_OUT)); \
-							CLEAR_PERI_REG_MASK(RTC_CNTL_STATE0_REG, RTC_CNTL_SLEEP_EN); \
-							SET_PERI_REG_MASK(RTC_CNTL_STATE0_REG, RTC_CNTL_SLEEP_EN); \
-							while(true);
+#define PROGRAM_SIGFOX_PROTOCOL_TIME_RESOLUTION			60
 
-#define DEBUG_RTC(...) 		ets_printf(__VA_ARGS__)
+														// Flushes UART pending data, sleeps, dummy operations until sleeping
+#define stubSleep()										while(REG_GET_FIELD(UART_STATUS_REG(0), UART_ST_UTX_OUT)); \
+														CLEAR_PERI_REG_MASK(RTC_CNTL_STATE0_REG, RTC_CNTL_SLEEP_EN); \
+														SET_PERI_REG_MASK(RTC_CNTL_STATE0_REG, RTC_CNTL_SLEEP_EN); \
+														while(true);
+
+#define DEBUG_RTC(...) 									ets_printf(__VA_ARGS__)
 
 //**********************************************************************************************************************************
 //                                                      Templates Section
@@ -88,7 +93,10 @@ public:
 
 	static void resetWakeUp();
 	static void setWakeStub(void (*wakeStub)());
-	static void setWakeUpTime(unsigned int seconds);
+	static void setWakeUpTime(unsigned int ticks);
+
+	static uint64_t convertSecondsToTicks(uint64_t seconds);
+	static uint64_t convertTicksToSeconds(uint64_t ticks);
 
 };
 

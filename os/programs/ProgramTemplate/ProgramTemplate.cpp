@@ -73,6 +73,15 @@ char* ProgramTemplate::getProgramTAG(){
 
 
 //**********************************************************************************************************************************
+// Header: ProgramTemplate::wakeupStub
+// Function: Runs every time the ESP32 wakes-up, checks conditions, may set the processor back to sleep
+//**********************************************************************************************************************************
+unsigned long RTC_IRAM_ATTR ProgramTemplate::wakeupStub(void){
+	return NULL;															// NULL: ignored	0: Wakes up the main processor,
+}																			// other values: (Sleep time in clock ticks)
+
+
+//**********************************************************************************************************************************
 // Header: ProgramTemplate::setup
 // Function: Runs every reset of the ESP32, normally to retrieve/set state variables
 //**********************************************************************************************************************************
