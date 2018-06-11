@@ -17,6 +17,9 @@
 //                                                     External Functions
 //**********************************************************************************************************************************
 
+extern "C"{
+	bool readMovement();
+};
 
 //**********************************************************************************************************************************
 //                                                     Global Variables
@@ -24,6 +27,7 @@
 
 RTC_DATA_ATTR unsigned long ProgramExampleULP::nextWakeUpTime;					  // MANDATORY variables to the normal program behavior
 RTC_DATA_ATTR bool ProgramExampleULP::executable;
+RTC_DATA_ATTR bool ProgramExampleULP::initiated;
 
 //**********************************************************************************************************************************
 //                                                        Code Section
@@ -97,6 +101,8 @@ void ProgramExampleULP::setup(){
 		Board::pinMode(ACC_INT, INPUT);
 //		Board::pinMode(GPIO25, INPUT);												// Define GPIO25 as INPUT
 
+		initiated = false;
+
 		executable = true;
 	} else {																		// According IF condition above:
 		executable = false;															// Runs if no program was registered or this program
@@ -108,10 +114,18 @@ void ProgramExampleULP::setup(){
 // Function: Program entry point
 //**********************************************************************************************************************************
 bool ProgramExampleULP::loop() {
-	bool execute;
+	bool execute = false;
 
-	while(LIS3DE::init(1) < 0);
-	execute = (LIS3DE::getWakeUp() == 0x40);											// Moved REG value read from ACC
+	if(initiated == false) {
+		configureACC();
+		delay_s(6);																		// Accomodates for the accelerometer low pass
+																						// filtering settling time
+		readMovement();																	// Read the movement interrupt value
+		initiated = true;
+	} else {
+		execute = readMovement();														// Read the movement interrupt value
+	}
+
 //	execute = Board::digitalRead(GPIO25);												// Read the (Interrupt) pin value
 
 	if(execute) {
@@ -122,11 +136,10 @@ bool ProgramExampleULP::loop() {
 
 	}
 																				// DEFAULT values: ULP_TIMER_WAKEUP | ULP_BUTTON_WAKEUP
-//	Board::setWakeUp(ULP_INTERRUPT_WAKEUP);										// The board wakes up with HIGH value on GPIO25
-	LIS3DE::setWakeUp(1,3);
+//	Board::enableWakeUp(ULP_INTERRUPT_WAKEUP);									// The board wakes up with HIGH value on GPIO25
 	Board::enableWakeUp(ULP_ACCELEROMETER_WAKEUP);								// The board wakes up with movement,
 
-	return execute;																// Is MANDATORY to program loader knows if
+	return false;																// Is MANDATORY to program loader knows if
 }																				// the program was executed
 
 //**********************************************************************************************************************************
@@ -152,4 +165,18 @@ void ProgramExampleULP::setNextTime(unsigned long time) {
 unsigned long ProgramExampleULP::getNextTime() {
 	return nextWakeUpTime;
 }
+
+//**********************************************************************************************************************************
+// Header: ProgramMovement::configureACC
+// Function: Configures the accelerometer with different movement detection threshold
+//**********************************************************************************************************************************
+void ProgramExampleULP::configureACC(){
+	consoleDebug((char*)"%s:\t\t configuring accelerometer", MY_ULP_PROGRAM_TAG);
+
+	while(LIS3DE::init(1) < 0){
+		consoleDebug((char*)"%s:\t\t LIS3DE not initiated", MY_ULP_PROGRAM_TAG);
+	}
+	LIS3DE::setWakeUp(1, 6);		// [3] Threshold
+}
+
 

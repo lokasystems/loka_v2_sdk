@@ -47,6 +47,8 @@ class ProgramExampleULP : public Program{
 	private:
         static unsigned long nextWakeUpTime;								// MANDATORY variables to the normal program behavior
         static bool executable;
+        static bool initiated;
+        static void configureACC();
 };
 
 #endif

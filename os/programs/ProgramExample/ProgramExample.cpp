@@ -102,12 +102,12 @@ void ProgramExample::setup(){
 		else
 			mySleepingTime = atol(configValue);
 
-
-		Board::pinMode(GPIO2, OUTPUT);												// Define GPIO2 as output to use later
-		Board::digitalWrite(GPIO2, LOW);
-
-		Board::pinMode(GPIO36, INPUT);												// Define GPIO36 as input to use later
-
+//
+//		Board::pinMode(GPIO2, OUTPUT);												// Define GPIO2 as output to use later
+//		Board::digitalWrite(GPIO2, LOW);
+//
+//		Board::pinMode(GPIO36, INPUT);												// Define GPIO36 as input to use later
+//
 		Board::pinMode(ACC_INT, INPUT);
 
 		executable = true;

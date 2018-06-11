@@ -451,6 +451,11 @@ typedef struct {
  *
  * @param RTC_SLEEP_PD_x flags combined using bitwise OR
  */
+
+// begin LOKA SYSTEMS LIMITED
+// Changed     .rtc_dbias_wak from RTC_CNTL_DBIAS_0V90 to RTC_CNTL_DBIAS_1V10
+// end LOKA SYSTEMS LIMITED
+
 #define RTC_SLEEP_CONFIG_DEFAULT(sleep_flags) { \
     .soc_clk_sel = RTC_CNTL_SOC_CLK_SEL_XTL, \
     .lslp_mem_inf_fpu = 0, \
@@ -465,8 +470,8 @@ typedef struct {
     .wdt_flashboot_mod_en = 0, \
     .dig_dbias_wak = RTC_CNTL_DBIAS_1V10, \
     .dig_dbias_slp = RTC_CNTL_DBIAS_0V90, \
-    .rtc_dbias_wak = RTC_CNTL_DBIAS_0V90, \
-    .rtc_dbias_slp = RTC_CNTL_DBIAS_0V90, \
+    .rtc_dbias_wak = RTC_CNTL_DBIAS_1V10, \
+    .rtc_dbias_slp = RTC_CNTL_DBIAS_1V10, \
     .lslp_meminf_pd = 1, \
     .vddsdio_pd_en = ((sleep_flags) & RTC_SLEEP_PD_VDDSDIO) ? 1 : 0, \
 };

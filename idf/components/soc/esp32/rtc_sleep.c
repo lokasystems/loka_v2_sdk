@@ -219,21 +219,6 @@ uint32_t rtc_sleep_start(uint32_t wakeup_opt, uint32_t reject_opt)
     REG_SET_FIELD(RTC_CNTL_WAKEUP_STATE_REG, RTC_CNTL_WAKEUP_ENA, wakeup_opt);
     WRITE_PERI_REG(RTC_CNTL_SLP_REJECT_CONF_REG, reject_opt);
 
-
-// begin LOKA SYSTEMS LIMITED
-//    REG_CLR_BIT(RTC_IO_TOUCH_PAD7_REG, RTC_IO_TOUCH_PAD7_HOLD);			// This to write in RTC mode, retains even while sleeping
-//    REG_SET_BIT(RTC_GPIO_OUT_W1TC_REG, BIT(31));
-//    REG_SET_BIT(RTC_IO_TOUCH_PAD7_REG, RTC_IO_TOUCH_PAD7_HOLD);
-
-//    ets_update_cpu_frequency_rom(ets_get_detected_xtal_freq() / 1000000);
-//    ets_delay_us(1000);
-//    REG_CLR_BIT(0x3ff48400 + 0xb0, BIT(31));			// This to write in RTC mode, retains even while sleeping
-//    REG_SET_BIT(0x3ff48400 + 0x8, BIT(31));
-//    REG_SET_BIT(0x3ff48400 + 0xb0, BIT(31));
-
-// end LOKA SYSTEMS LIMITED
-
-
     /* Start entry into sleep mode */
     SET_PERI_REG_MASK(RTC_CNTL_STATE0_REG, RTC_CNTL_SLEEP_EN);
 

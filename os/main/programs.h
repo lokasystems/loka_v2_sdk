@@ -15,6 +15,7 @@
 #include "ProgramExample.h"
 #include "ProgramExampleULP.h"
 #include "ProgramExampleSTUB.h"
+#include "ProgramTracker.h"
 
 //**********************************************************************************************************************************
 //                                                      Defines Section
@@ -25,4 +26,5 @@
 REGISTER_PROGRAM(ProgramExample)
 //REGISTER_PROGRAM(ProgramExampleULP)
 //REGISTER_PROGRAM(ProgramExampleSTUB)
+//REGISTER_PROGRAM(ProgramTracker)
 

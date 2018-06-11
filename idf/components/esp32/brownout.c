@@ -33,22 +33,27 @@
 
 static void rtc_brownout_isr_handler()
 {
-    /* Normally RTC ISR clears the interrupt flag after the application-supplied
-     * handler returns. Since restart is called here, the flag needs to be
-     * cleared manually.
-     */
-    REG_WRITE(RTC_CNTL_INT_CLR_REG, RTC_CNTL_BROWN_OUT_INT_CLR);
-
     // begin LOKA SYSTEMS LIMITED
 	GPIO_OUTPUT_SET(21, 0);											// Keep Wisol module CSN low!
     // end LOKA SYSTEMS LIMITED
 
+
+	/* Normally RTC ISR clears the interrupt flag after the application-supplied
+     * handler returns. Since restart is called here, the flag needs to be
+     * cleared manually.
+     */
+    REG_WRITE(RTC_CNTL_INT_CLR_REG, RTC_CNTL_BROWN_OUT_INT_CLR);
 
     /* Stall the other CPU to make sure the code running there doesn't use UART
      * at the same time as the following ets_printf.
      */
     esp_cpu_stall(!xPortGetCoreID());
     ets_printf("\r\nBrownout detector was triggered\r\n\r\n");
+
+    // begin LOKA SYSTEMS LIMITED
+    ets_delay_us(10000000);
+    // end LOKA SYSTEMS LIMITED
+
     esp_restart_noos();
 }
 
