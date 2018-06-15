@@ -478,16 +478,18 @@ check-submodules:
 # Dump the git status for the whole working copy once, then grep it for each submodule. This saves a lot of time on Windows.
 GIT_STATUS := $(shell cd ${IDF_PATH} && git status --porcelain --ignore-submodules=dirty)
 
+# begin LOKA SYSTEMS LIMITED
 # Generate a target to check this submodule
 # $(1) - submodule directory, relative to IDF_PATH
 define GenerateSubmoduleCheckTarget
-check-submodules: $(IDF_PATH)/$(1)/.git
-$(IDF_PATH)/$(1)/.git:
-	@echo "WARNING: Missing submodule $(1)..."
-	[ -e ${IDF_PATH}/.git ] || ( echo "ERROR: esp-idf must be cloned from git to work."; exit 1)
-	[ -x $$(which git) ] || ( echo "ERROR: Need to run 'git submodule init $(1)' in esp-idf root directory."; exit 1)
-	@echo "Attempting 'git submodule update --init $(1)' in esp-idf root directory..."
-	cd ${IDF_PATH} && git submodule update --init $(1)
+#check-submodules: $(IDF_PATH)/$(1)/.git
+#$(IDF_PATH)/$(1)/.git:
+#	@echo "WARNING: Missing submodule $(1)..."
+#	[ -e ${IDF_PATH}/.git ] || ( echo "ERROR: esp-idf must be cloned from git to work."; exit 1)
+#	[ -x $$(which git) ] || ( echo "ERROR: Need to run 'git submodule init $(1)' in esp-idf root directory."; exit 1)
+#	@echo "Attempting 'git submodule update --init $(1)' in esp-idf root directory..."
+#	cd ${IDF_PATH} && git submodule update --init $(1)
+# end LOKA SYSTEMS LIMITED
 
 # Parse 'git status' output to check if the submodule commit is different to expected
 ifneq ("$(filter $(1),$(GIT_STATUS))","")
