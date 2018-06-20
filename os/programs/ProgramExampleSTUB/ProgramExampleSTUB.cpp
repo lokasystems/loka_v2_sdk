@@ -146,11 +146,12 @@ bool ProgramExampleSTUB::loop() {
 	LIS3DE::init(0);
 	readTemp = LIS3DE::getTemperature(0);
 
+	nextWakeUpTime = getUptime() + Board::convertTicksToSeconds(mySleepingTime);// PROGRAM SLEEPING TIME - in this case is passed
+																					// and dynamically changed in program config
+
 	if(readTemp >= ProgramExampleSTUB::currentTemperature + ProgramExampleSTUB::temperatureInterval || \
 			readTemp <= ProgramExampleSTUB::currentTemperature - ProgramExampleSTUB::temperatureInterval){
 
-		nextWakeUpTime = getUptime() + Board::convertTicksToSeconds(mySleepingTime);// PROGRAM SLEEPING TIME - in this case is passed
-																					// and dynamically changed in program config
 		// CUSTOM CODE SECTION
 
 		consoleDebug("%s:\t\t\t Hello... Waked up from a temperature variation!", MY_STUB_PROGRAM_TAG);
