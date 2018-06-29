@@ -1,11 +1,24 @@
-Loka SDK
-=============
+Introduction
+------------
+
+This repository provides the SDK for the LOKA development board.
+
+The Loka Module System is revolutionary in its ability to be both flexible and scalable. Is composed by a multi-purpose board, a device management and geo location tool. The objective is to be the IoT platform of choice due to low cost, high flexibility and availability.
+
+The multipurpose module, whose main function is a standalone low cost tracker, can be used as a mother board or a daughter board allowing to connect a variety of sensors.
+This revolutionary concept, addresses the cost and the Time to Market problem to introduce the many new services that are made possible by low power, low cost Sigfox network.
+
+For more information click [here](http://www.loka.systems).
+
+**Contents:**
 
 -   [Introduction](#introduction)
 
 -   [Install Prerequisites](#requirements)
 
 -   [Bootloader](#bootloader)
+
+-   [Pin Layout](#pin-layout)
 
 -   [API Documentation](#api-documentation)
 
@@ -35,21 +48,8 @@ Loka SDK
 	
     -   [ESP32_HTTP.h](#esp32_httph)
 
-	
-
-Introduction
-------------
-
-This repository provides the SDK for the LOKA development board.
-
-The Loka Module System is revolutionary in its ability to be both flexible and scalable. Is composed by a multi-purpose board, a device management and geo location tool. The objective is to be the IoT platform of choice due to low cost, high flexibility and availability.
-
-The multipurpose module, whose main function is a standalone low cost tracker, can be used as a mother board or a daughter board allowing to connect a variety of sensors.
-This revolutionary concept, addresses the cost and the Time to Market problem to introduce the many new services that are made possible by low power, low cost Sigfox network.
-
-For more information click [here](http://www.loka.systems).
-
-**Contents:**
+    
+**Repository contents:**
 
 - Espressif IoT Development Framework (IDF)
 
@@ -177,10 +177,44 @@ The Bootloader shell avalilable commands:
 
 -   sn
 
-
-
 NOTE: Before use the network update \<url\> command, make sure that te wifi configuration is already correctly set.
 
+Pin Layout
+----------
+
+| **#**  	| **PIN / GPIO** 	| **RTC GPIO** 	| **Output capability** 	| **Pull-Up Pull-Down** 	| **Reserved**    	| **ADC / DAC / SPI**   	|
+|----	|------------	|----------	|-------------------	|-------------------	|-------------	|------------------	|
+| 4  	| Enable     	|          	| I                 	| PU*               	| RESET       	|                  	|
+| 18 	| GPIO0      	| GPIO11   	| I/O               	| PU*               	| LED         	|                  	|
+| 15 	| GPIO4      	| GPIO10   	| I/O               	| PD*               	|             	| ADC2_CH0         	|
+| 14 	| GPIO12     	| GPIO15   	| I/O               	| PD*               	|             	| ADC2_CH5         	|
+| 11 	| GPIO13     	| GPIO14   	| I/O               	|                   	|             	| ADC2_CH4         	|
+| 9  	| GPIO14     	| GPIO16   	| I/O               	|                   	|             	| ADC2_CH6         	|
+| 13 	| GPIO2      	| GPIO12   	| I/O               	| PD*               	|             	| ADC2_CH2         	|
+| 16 	| GPIO15     	| GPIO13   	| I/O               	| PU*               	|             	| ADC2_CH3         	|
+| 10 	| GPIO25     	| GPIO6    	| I/O               	|                   	|             	| ADC2_CH8 / DAC_1 	|
+| 7  	| GPIO26     	| GPIO7    	| O                 	|                   	| SPI_SCLK    	| SCLK             	|
+| 12 	| GPIO27     	| GPIO17   	| O                 	| PU*               	| DCDC_ON     	|                  	|
+| 3  	| GPIO36     	| GPIO0    	| I                 	|                   	|             	| ADC1_CH0         	|
+| 6  	| GPIO37     	| GPIO1    	| I                 	|                   	|             	| ADC1_CH1         	|
+| 5  	| GPIO38     	| GPIO2    	| I                 	|                   	|             	| ADC1_CH2         	|
+| 8  	| GPIO39     	| GPIO3    	| I                 	|                   	|             	| ADC1_CH3         	|
+| 26 	| GPIO1      	|          	| I/O               	| PU                	| U0TXD       	|                  	|
+| 21 	| GPIO3      	|          	| I/O               	| PU                	| U0RXD       	|                  	|
+| 22 	| GPIO5      	|          	| I/O               	| PU*               	| SPI_CSN_ACC 	|                  	|
+| 20 	| GPIO16     	|          	| O                 	| PD*               	| DCDC_LVL    	|                  	|
+| 17 	| GPIO17     	|          	| I/O               	| PU                	| RADIO_CTL1  	|                  	|
+| 19 	| GPIO19     	|          	| O                 	| PD                	| SPI_SDI     	| SDI              	|
+| 23 	| GPIO21     	|          	| I/O               	| PU                	| RADIO_CTL0  	|                  	|
+| 24 	| GPIO22     	|          	| I                 	| PD                	| SPI_SDO     	| SDO              	|
+
+**Notes:**
+- (*) Those pins are the ESP32 CPU pin-strapping options. in case an output is connected to them, make sure to meet the respective default logic level at startup (PU – Pull high, PD – Pull low).
+- Pin 1 - VDD: Internal supply voltage output. This voltage is set to 2.5 V max. while the device is sleeping and to 2.85 while the device is active. A firmware option can be activate to change the output to 3.3 V while in active mode.
+- Pin 25 - VSUPPLY: Polarization-protected supply output. Outputs the voltage at VBAT with polarization protection. In case no polarization issues are foreseen in a certain application, this pin can be used to power the LOKA device instead of VBAT (connect a supply or battery from 2.4 V to 5.5 V).
+- Pin 27 - VBAT: Supply input, connect a supply or battery from 2.4 V to 5.5 V to power the LOKA device.
+
+![](Images/Loka_Pinout.png)
 
 API Documentation
 -----------------
