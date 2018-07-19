@@ -27,28 +27,28 @@ For more information click [here](http://www.loka.systems).
     -   [Program.h](#programh)
 
     -   [BOARD_LokaV2.h](#board_lokav2h)
-	   
+
     -   [SIGFOX_Protocol.h](#sigfox_protocolh)
 
     -   [BootloaderConsole.h](#bootloaderconsoleh)
-	
+
     -   [ConsoleInterface.h](#consoleinterfaceh)
 
     -   [ESP32_Bluetooth.h](#esp32_bluetoothh)
-	
+
     -   [ESP32_RTC.h](#esp32_rtch)
-	
+
     -   [ESP32_SerialPort.h](#esp32_serialporth)
-	
+
     -   [ESP32_SPIFFS.h](#esp32_spiffsh)
-	
+
     -   [ESP32_Wifi.h](#esp32_wifih)
-	
+
     -   [LIS3DE_Acceleration.h](#lis3de_accelerationh)
-	
+
     -   [ESP32_HTTP.h](#esp32_httph)
 
-    
+
 **Repository contents:**
 
 - Espressif IoT Development Framework (IDF)
@@ -134,7 +134,7 @@ Go to the OS folder and build:
 Upload to the board and see the execution result:
 
         make flash monitor
-        
+
 Permission issues /dev/ttyUSB0
 ------------------------------
 
@@ -182,31 +182,35 @@ NOTE: Before use the network update \<url\> command, make sure that te wifi conf
 Pin Layout
 ----------
 
-| **#**  	| **PIN / GPIO** 	| **RTC GPIO** 	| **Output capability** 	| **Pull-Up Pull-Down** 	| **Reserved**    	| **ADC / DAC / SPI**   	|
-|----	|------------	|----------	|-------------------	|-------------------	|-------------	|------------------	|
-| 4  	| Enable     	|          	| I                 	| PU*               	| RESET       	|                  	|
-| 18 	| GPIO0      	| GPIO11   	| I/O               	| PU*               	| LED         	|                  	|
-| 15 	| GPIO4      	| GPIO10   	| I/O               	| PD*               	|             	| ADC2_CH0         	|
-| 14 	| GPIO12     	| GPIO15   	| I/O               	| PD*               	|             	| ADC2_CH5         	|
-| 11 	| GPIO13     	| GPIO14   	| I/O               	|                   	|             	| ADC2_CH4         	|
-| 9  	| GPIO14     	| GPIO16   	| I/O               	|                   	|             	| ADC2_CH6         	|
-| 13 	| GPIO2      	| GPIO12   	| I/O               	| PD*               	|             	| ADC2_CH2         	|
-| 16 	| GPIO15     	| GPIO13   	| I/O               	| PU*               	|             	| ADC2_CH3         	|
-| 10 	| GPIO25     	| GPIO6    	| I/O               	|                   	|             	| ADC2_CH8 / DAC_1 	|
-| 7  	| GPIO26     	| GPIO7    	| O                 	|                   	| SPI_SCLK    	| SCLK             	|
-| 12 	| GPIO27     	| GPIO17   	| O                 	| PU*               	| DCDC_ON     	|                  	|
-| 3  	| GPIO36     	| GPIO0    	| I                 	|                   	|             	| ADC1_CH0         	|
-| 6  	| GPIO37     	| GPIO1    	| I                 	|                   	|             	| ADC1_CH1         	|
-| 5  	| GPIO38     	| GPIO2    	| I                 	|                   	|             	| ADC1_CH2         	|
-| 8  	| GPIO39     	| GPIO3    	| I                 	|                   	|             	| ADC1_CH3         	|
-| 26 	| GPIO1      	|          	| I/O               	| PU                	| U0TXD       	|                  	|
-| 21 	| GPIO3      	|          	| I/O               	| PU                	| U0RXD       	|                  	|
-| 22 	| GPIO5      	|          	| I/O               	| PU*               	| SPI_CSN_ACC 	|                  	|
-| 20 	| GPIO16     	|          	| O                 	| PD*               	| DCDC_LVL    	|                  	|
-| 17 	| GPIO17     	|          	| I/O               	| PU                	| RADIO_CTL1  	|                  	|
-| 19 	| GPIO19     	|          	| O                 	| PD                	| SPI_SDI     	| SDI              	|
-| 23 	| GPIO21     	|          	| I/O               	| PU                	| RADIO_CTL0  	|                  	|
-| 24 	| GPIO22     	|          	| I                 	| PD                	| SPI_SDO     	| SDO              	|
+| **Hdr #** | **Edge Conn #**  | **PIN / GPIO** 	| **RTC GPIO** 	| **I/O Capability** 	| **Pull-Up / Pull-Down** 	| **Reserved**    	| **ADC / DAC / SPI**   	|
+|------	|---------  |------------	|----------	|-------------------	|-------------------	|-------------	|------------------	|
+| 1     |  1, 3, 5    | VDD    	    |     	    |                   	|                   	|             	|               	|
+| 2, 28  |  2, 4, 6, 8, 10,<br>56, 58, 60, 62, 64, 66 | GND    	    |     	    |                   	|                   	|             	|               	|
+| 3   	| 13  | GPIO36     	| GPIO0    	| I                 	|                   	|             	| ADC1_CH0         	|
+| 4   	| 9   | ENABLE     	|          	| I                 	| PU*               	| RESET       	|                  	|
+| 5   	| 17  | GPIO38     	| GPIO2    	| I                 	|                   	|             	| ADC1_CH2         	|
+| 6   	| 12  | GPIO37     	| GPIO1    	| I                 	|                   	|             	| ADC1_CH1         	|
+| 7   	| 21  | GPIO26     	| GPIO7    	| O                 	|                   	| SPI_SCLK    	| SCLK             	|
+| 8   	| 16  | GPIO39     	| GPIO3    	| I                 	|                   	|             	| ADC1_CH3         	|
+| 9   	| 25  | GPIO14     	| GPIO16   	| I/O               	|                   	|             	| ADC2_CH6         	|
+| 10 		| 20 	| GPIO25     	| GPIO6    	| I/O               	|                   	|             	| ADC2_CH8 / DAC_1 	|
+| 11 		| 29 	| GPIO13     	| GPIO14   	| I/O               	|                   	|             	| ADC2_CH4         	|
+| 12 		| 24 	| GPIO27     	| GPIO17   	| O                 	| PU*               	| DCDC_ON     	|                  	|
+| 13 		| 33 	| GPIO2      	| GPIO12   	| I/O               	| PD*               	|             	| ADC2_CH2         	|
+| 14 		| 28 	| GPIO12     	| GPIO15   	| I/O               	| PD*               	|             	| ADC2_CH5         	|
+| 15 		| 37 	| GPIO4      	| GPIO10   	| I/O               	| PD*               	|             	| ADC2_CH0         	|
+| 16 		| 32 	| GPIO15     	| GPIO13   	| I/O               	| PU*               	|             	| ADC2_CH3         	|
+| 17 		| 41 	| GPIO17     	|          	| I/O               	| PU                	| RADIO_CTL1  	|                  	|
+| 18 		| 36 	| GPIO0      	| GPIO11   	| I/O               	| PU*               	| LED         	|                  	|
+| 19 		| 45 	| GPIO19     	|          	| O                 	| PD                	| SPI_SDI     	| SDI              	|
+| 20 		| 40 	| GPIO16     	|          	| O                 	| PD*               	| DCDC_LVL    	|                  	|
+| 21 		| 49 	| GPIO3      	|          	| I/O               	| PU                	| U0RXD       	|                  	|
+| 22 		| 44 	| GPIO5      	|          	| I/O               	| PU*               	| SPI_CSN_ACC 	|                  	|
+| 23 		| 53 	| GPIO21     	|          	| I/O               	| PU                	| RADIO_CTL0  	|                  	|
+| 24 		| 48 	| GPIO22     	|          	| I                 	| PD                	| SPI_SDO     	| SDO              	|
+| 25 		| 57, 59, 61 | VSUPPLY  	  |     	    |                   	|                   	|             	|               	|
+| 26 		| 52 	| GPIO1      	|          	| I/O               	| PU                	| U0TXD       	|                  	|
+| 27 		| 63, 65, 67  | VBAT   	    |     	    |                   	|                   	|             	|               	|
 
 **Notes:**
 - (*) Those pins are the ESP32 CPU pin-strapping options. in case an output is connected to them, make sure to meet the respective default logic level at startup (PU – Pull high, PD – Pull low).
@@ -214,7 +218,14 @@ Pin Layout
 - Pin 25 - VSUPPLY: Polarization-protected supply output. Outputs the voltage at VBAT with polarization protection. In case no polarization issues are foreseen in a certain application, this pin can be used to power the LOKA device instead of VBAT (connect a supply or battery from 2.4 V to 5.5 V).
 - Pin 27 - VBAT: Supply input, connect a supply or battery from 2.4 V to 5.5 V to power the LOKA device.
 
-![](Images/Loka_Pinout.png)
+#### Top View
+
+![](Images/Loka_V2_Pinout_Top.jpg)
+
+#### Bottom View
+
+![](Images/Loka_V2_Pinout_Bottom.jpg)
+
 
 API Documentation
 -----------------
@@ -396,5 +407,3 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 |---------------|------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------|
 | networkUpdate | Performs OTA firmware update                         | HTTP::networkUpdate(char* cmd); | cmd: Custom URL to download the desired image. If empty this   method downloads a image (for this device) from the Device Manager | None   	  |
 | getFile       | This method downloads a file from the Device Manager | HTTP::getFile(char* fileName);  | fileName: Name of file to download from the DM                                                                                    | None   	  |
-
-
