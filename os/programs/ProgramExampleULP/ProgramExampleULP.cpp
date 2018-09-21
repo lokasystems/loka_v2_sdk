@@ -37,7 +37,7 @@ RTC_DATA_ATTR bool ProgramExampleULP::initiated;
 // Header: ProgramExampleULP::setConfig
 // Function: Used in Sigfox PROTOCOL to set program configurations over the air
 //**********************************************************************************************************************************
-void ProgramExampleULP::setConfig(unsigned char * newConfig){						 //				#########  UNUSED YET  #########
+void ProgramExampleULP::setConfig(unsigned char header, unsigned char* newConfig){ //				#########  UNUSED YET  #########
 //	char str [32];
 //	Board::setFlash(FLASH_CONFIGS_PAGE, "program", getProgramTAG());
 //	Board::setFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), str);
@@ -55,15 +55,6 @@ void ProgramExampleULP::getConfig(char * configBuffer){								//				#########  
 //	Board::getFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), configValue, 0);
 
 // Parse custom configuration values, and build configBuffer
-}
-
-
-//**********************************************************************************************************************************
-// Header: ProgramExampleULP::getProgramID
-// Function: Retrieves the program ID
-//**********************************************************************************************************************************
-unsigned char ProgramExampleULP::getProgramID(){								   //				#########  UNUSED YET  #########
-	return 255;																	   // Default, used to identify program to set/get
 }																				   // the program configurations over SIGFOX
 
 

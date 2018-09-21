@@ -25,4 +25,9 @@ typedef struct accessPoints{
 	accessPoint **aps;
 }accessPoints;
 
+typedef struct friendlyAccessPoint{
+	char ssid[33];
+	char password[63];
+}friendlyAccessPoint;
+
 #endif /* COMPONENTS_UTILS_INCLUDE_APSTRUCTS_H_ */

@@ -14,6 +14,12 @@
 #ifndef PROGRAM_H_
 #define PROGRAM_H_
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <vector>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 //**********************************************************************************************************************************
 //                                                      Defines Section
 //**********************************************************************************************************************************
@@ -28,13 +34,13 @@ class Program{
 		virtual bool loop() = 0;							// Main code of the program
 		virtual unsigned long getNextTime();				// Retrieves/sets the time for the next execution
 		virtual void setNextTime(unsigned long time);
-		virtual void setConfig(unsigned char * newConfig);
+		virtual void setConfig(unsigned char header, unsigned char* newConfig);
 		virtual void getConfig(char * configBuffer);
-		virtual unsigned char getProgramID();
 		virtual char* getProgramTAG();
 		virtual bool isExecutable();
 		virtual unsigned long wakeupStub(void);
 };
+
 
 template<class T> Program* program_factory(){
     return new T;

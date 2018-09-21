@@ -1,35 +1,43 @@
 //**********************************************************************************************************************************
-// Filename: ESP32_SPIFFS.h
-// Date: 05.02.2018
+// Filename: RadioAPI.h
+// Date: 18.09.2018
 // Author: João Pombas
 // Company: LOKA SYSTEMS
 // Version: 1.0
-// Description: Driver for the ESP32
+// Description: RadioAPI component
 //**********************************************************************************************************************************
-#ifndef ESP32_SPIFFS_H_
-#define ESP32_SPIFFS_H_
+#ifndef RADIO_API_H_
+#define RADIO_API_H_
 
 //**********************************************************************************************************************************
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
+#include "BOARD_LokaV2.h"
+#include "SIGFOX_Protocol.h"
 
 //**********************************************************************************************************************************
 //                                                      Define Section
 //**********************************************************************************************************************************
 
-
 //**********************************************************************************************************************************
 //                                                     Templates Section
 //**********************************************************************************************************************************
-class SPIFFS {
-public:
-	static void printSizeInfo();
-	static FILE* getFile(char* fileName, char* openMode);
-	static void writeFile(char* fileName, char* content, int size, bool append);
-	static int readFile(char* fileName, char* content, int size, int offset);
-	static void removeFile(char * fileName);
-	static void writeHistory(char* fileName, unsigned long timestamp, int numberOfElements, void* firstElement, int elementSize, bool append);
+class Radio {
+
+	public:
+		static void turnOn();
+		static void turnOff();
+		static char sendMessage(unsigned char* message, int size, char requestAck = false);
+		static char sendGPIOValue(int gpio, char value, char requestAck = false);
+		static char sendAnalogValue(int port, double value, char requestAck = false);
+		static char sendAnalogValue(int port, double value, int port2, double value2, char requestAck = false);
+		static char sendGPSPosition(double latitude, double longitude, double speed, double timestamp, char requestAck = false);
+		static int sendMessageAndReadResponse(unsigned char* message, int size, unsigned char* response, int timeout);
+
+	private:
+
 };
+
 
 #endif

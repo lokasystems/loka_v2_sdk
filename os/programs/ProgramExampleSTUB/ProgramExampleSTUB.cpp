@@ -43,7 +43,7 @@ static const char RTC_RODATA_ATTR tempPrint[] = "\nEXAMPLE_STUB:\t\t Read temper
 // Header: ProgramExampleSTUB::setConfig
 // Function: Used in Sigfox PROTOCOL to set program configurations over the air
 //**********************************************************************************************************************************
-void ProgramExampleSTUB::setConfig(unsigned char * newConfig){						 //				#########  UNUSED YET  #########
+void ProgramExampleSTUB::setConfig(unsigned char header, unsigned char* newConfig){	//				#########  UNUSED YET  #########
 //	char str [32];
 //	Board::setFlash(FLASH_CONFIGS_PAGE, "program", getProgramTAG());
 //	Board::setFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), str);
@@ -62,15 +62,6 @@ void ProgramExampleSTUB::getConfig(char * configBuffer){							//				#########  
 
 // Parse custom configuration values, and build configBuffer
 }
-
-
-//**********************************************************************************************************************************
-// Header: ProgramExampleSTUB::getProgramID
-// Function: Retrieves the program ID
-//**********************************************************************************************************************************
-unsigned char ProgramExampleSTUB::getProgramID(){								   //				#########  UNUSED YET  #########
-	return 255;																	   // Default, used to identify program to set/get
-}																				   // the program configurations over SIGFOX
 
 
 //**********************************************************************************************************************************
@@ -146,7 +137,7 @@ bool ProgramExampleSTUB::loop() {
 	LIS3DE::init(0);
 	readTemp = LIS3DE::getTemperature(0);
 
-	nextWakeUpTime = getUptime() + Board::convertTicksToSeconds(mySleepingTime);// PROGRAM SLEEPING TIME - in this case is passed
+	nextWakeUpTime = getUptime() + Board::convertTicksToSeconds(mySleepingTime);	// PROGRAM SLEEPING TIME - in this case is passed
 																					// and dynamically changed in program config
 
 	if(readTemp >= ProgramExampleSTUB::currentTemperature + ProgramExampleSTUB::temperatureInterval || \

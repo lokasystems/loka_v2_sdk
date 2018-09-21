@@ -24,13 +24,19 @@
 #include "InputOutput.h"
 #include "LIS3DE_Acceleration.h"
 #include "ESP32_RTC.h"
+#include "SIM33ELA_GPS.h"
 #include "ESP32_Wifi.h"
 #include "ESP32_SerialPort.h"
 #include "ESP32_Bluetooth.h"
 #include "ESP32_SPIFFS.h"
+#include "ESP32_AnalogSTUB.h"
 #include "SIGFOX_Protocol.h"
 #include "ESP32_HTTP.h"
 #include "BOARD_LokaV2_ULP.h"
+
+#include "ParseNumerics.h"
+
+
 
 #include "esp32/ulp.h"
 #include "soc/sens_reg.h"
@@ -56,7 +62,7 @@ extern "C" {
 //**********************************************************************************************************************************
 
 #define FLASH_CONFIGS_PAGE								"CONFIGS"
-#define FLASH_SIZE_MAX 									32
+#define FLASH_SIZE_MAX 									64
 
 #define PROGRAM_SIGFOX_PROTOCOL_TIME_RESOLUTION			60
 
@@ -97,7 +103,8 @@ public:
 
 	static uint64_t convertSecondsToTicks(uint64_t seconds);
 	static uint64_t convertTicksToSeconds(uint64_t ticks);
-
+	static uint64_t convertMSecondsToTicks(uint64_t millis);
+	static uint64_t convertTicksToMSeconds(uint64_t ticks);
 };
 
 #endif

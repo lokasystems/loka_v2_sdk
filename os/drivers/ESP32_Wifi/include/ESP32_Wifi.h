@@ -30,7 +30,7 @@ public:
 	static void turnOn();
 	static void turnOff();
 	static int scan(accessPoints *aps);
-	static int directScan(accessPoints* aps, accessPoints* searchAps);
+	static int directScan(accessPoints* aps, accessPoints* searchAps, char ignoreBssidAndChannel = 0);
 	static bool connectAP(char *SSID, char *password);
 };
 

@@ -1,18 +1,20 @@
 //**********************************************************************************************************************************
-// Filename: ESP32_SPIFFS.h
-// Date: 05.02.2018
+// Filename: GPSService.h
+// Date: 03.07.2018
 // Author: João Pombas
 // Company: LOKA SYSTEMS
 // Version: 1.0
-// Description: Driver for the ESP32
+// Description: GPS component
 //**********************************************************************************************************************************
-#ifndef ESP32_SPIFFS_H_
-#define ESP32_SPIFFS_H_
+
+#ifndef COMPONENTS_GPS_H_
+#define COMPONENTS_GPS_H_
 
 //**********************************************************************************************************************************
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
+#include "GPSAPI.h"
 
 //**********************************************************************************************************************************
 //                                                      Define Section
@@ -22,14 +24,15 @@
 //**********************************************************************************************************************************
 //                                                     Templates Section
 //**********************************************************************************************************************************
-class SPIFFS {
-public:
-	static void printSizeInfo();
-	static FILE* getFile(char* fileName, char* openMode);
-	static void writeFile(char* fileName, char* content, int size, bool append);
-	static int readFile(char* fileName, char* content, int size, int offset);
-	static void removeFile(char * fileName);
-	static void writeHistory(char* fileName, unsigned long timestamp, int numberOfElements, void* firstElement, int elementSize, bool append);
+class GPSService {
+
+	public:
+		static void init();
+		static void reset();
+		static bool run(uint64_t timestamp);
+
+	private:
+
 };
 
 #endif

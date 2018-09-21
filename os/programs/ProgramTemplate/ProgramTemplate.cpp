@@ -33,7 +33,7 @@ RTC_DATA_ATTR bool ProgramTemplate::executable;
 // Header: ProgramTemplate::setConfig
 // Function: Used in Sigfox PROTOCOL to set program configurations over the air
 //**********************************************************************************************************************************
-void ProgramTemplate::setConfig(unsigned char * newConfig){						   //				#########  UNUSED YET  #########
+void ProgramTemplate::setConfig(unsigned char header, unsigned char* newConfig){	//				#########  UNUSED YET  #########
 //	char str [32];
 //	Board::setFlash(FLASH_CONFIGS_PAGE, "program", getProgramTAG());
 //	Board::setFlash(FLASH_CONFIGS_PAGE, getProgramTAG(), str);
@@ -52,15 +52,6 @@ void ProgramTemplate::getConfig(char * configBuffer){								//				#########  UN
 
 // Parse custom configuration values, and build configBuffer
 }
-
-
-//**********************************************************************************************************************************
-// Header: ProgramTemplate::getProgramID
-// Function: Retrieves the program ID
-//**********************************************************************************************************************************
-unsigned char ProgramTemplate::getProgramID(){									   //				#########  UNUSED YET  #########
-	return 255;																	   // Default, used to identify program to set/get
-}																				   // the program configurations over SIGFOX
 
 
 //**********************************************************************************************************************************

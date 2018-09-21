@@ -1,35 +1,34 @@
 //**********************************************************************************************************************************
-// Filename: ESP32_SPIFFS.h
-// Date: 05.02.2018
+// Filename: GeoService.h
+// Date: 18.01.2018
 // Author: João Pombas
 // Company: LOKA SYSTEMS
 // Version: 1.0
-// Description: Driver for the ESP32
+// Description: GeoService component
 //**********************************************************************************************************************************
-#ifndef ESP32_SPIFFS_H_
-#define ESP32_SPIFFS_H_
+#ifndef GEO_SERVICE_H_
+#define GEO_SERVICE_H_
 
 //**********************************************************************************************************************************
 //                                                      Includes Section
 //**********************************************************************************************************************************
 
+#include "../../APIs/include/GeoAPI.h"
 
 //**********************************************************************************************************************************
 //                                                      Define Section
 //**********************************************************************************************************************************
 
-
 //**********************************************************************************************************************************
 //                                                     Templates Section
 //**********************************************************************************************************************************
-class SPIFFS {
-public:
-	static void printSizeInfo();
-	static FILE* getFile(char* fileName, char* openMode);
-	static void writeFile(char* fileName, char* content, int size, bool append);
-	static int readFile(char* fileName, char* content, int size, int offset);
-	static void removeFile(char * fileName);
-	static void writeHistory(char* fileName, unsigned long timestamp, int numberOfElements, void* firstElement, int elementSize, bool append);
+class GeoService {
+
+	public:
+		static void init(unsigned char applyRules, char* rulesFilename, unsigned char fenceEnabled, char* fenceAPFilename, char* postponedReportFilename);
+		static void reset();
+		static bool run(unsigned long timestamp, unsigned char postponedReport);
+		static size_t getDataSize();
 };
 
 #endif

@@ -38,7 +38,7 @@ class ProgramExample : public Program{
 		bool loop ();
         unsigned long getNextTime();
         void setNextTime(unsigned long time);
-        void setConfig(unsigned char * receivedMessage);
+        void setConfig(unsigned char header, unsigned char* newConfig);
         void getConfig(char * configBuffer);
         unsigned char getProgramID();
         char* getProgramTAG();

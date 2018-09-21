@@ -27,6 +27,12 @@ class HTTP{
 public:
 	static void networkUpdate(char * cmd);
 	static void getFile(char* fileName);
+
+	static int openSocket(char *server, char * port, char * proto);
+	static void closeSocket(int id);
+	static int sendData(int id, char *buffer, int size);
+	static int readData(int id, char *c, int size);
+	static int pendingDataSize(int id);
 };
 
 
