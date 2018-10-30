@@ -83,6 +83,7 @@ public:
 	static unsigned long int getID();
 	static char* getPAC();
 
+	static void initPin(digio gpio);
 	static void pinMode(digio gpio, pin_mode mode);
 	static void digitalWrite(digio gpio, uint8_t value);
 	static unsigned char digitalRead(digio gpio);
