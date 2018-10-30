@@ -286,9 +286,10 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 | setWakeUpTime 	  | Sets the RTC timer next wake-up                | Board::setWakeUpTime(unsigned int ticks);                                                                                             | second: Number of clock ticks to sleep                                                                                                                                                                                                                                | None                             |
 |convertSecondsToTicks|	Converts seconds in clock ticks				   | Board::convertSecondsToTicks(uint64_t seconds);																					   | seconds: Time in seconds																																																											   | Time in clock ticks			  |
 |convertTicksToSeconds|	Converts clock ticks in seconds				   | Board::convertTicksToSeconds(uint64_t ticks);																						   | ticks: Time in clock ticks																																																											   | Time in seconds     		      |
-|convertMSecondsToTicks|	Converts miliseconds in clock ticks				   | Board::convertMSecondsToTicks(uint64_t milis);																					   | milis: Time in miliseconds																																																											   | Time in clock ticks			  |
-|convertTicksToMSeconds|	Converts clock ticks in miliseconds				   | Board::convertTicksToMSeconds(uint64_t ticks);																						   | ticks: Time in clock ticks																																																											   | Time in miliseconds     		      |
-
+|convertMSecondsToTicks|	Converts miliseconds in clock ticks		   | Board::convertMSecondsToTicks(uint64_t milis);																					       | milis: Time in miliseconds																																																											   | Time in clock ticks			  |
+|convertTicksToMSeconds|	Converts clock ticks in miliseconds		   | Board::convertTicksToMSeconds(uint64_t ticks);																						   | ticks: Time in clock ticks																																																											   | Time in miliseconds     		  |
+|getInputVoltageLoad  |	    Gets the input load voltage          	   | Board::getInputVoltageLoad();																					                	   | None																																																											                       | Input voltage [v]                |
+|getInputVoltageOpen  |	    Gets the input open voltage          	   | Board::getInputVoltageOpen();																					                	   | None																																																											                       | Input voltage [v]                |
 
 
 #### SIGFOX_Protocol.h

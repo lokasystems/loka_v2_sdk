@@ -47,8 +47,10 @@ void Radio::turnOff(){
 // Function: Sends data through an established technology
 //**********************************************************************************************************************************
 char Radio::sendMessage(unsigned char* message, int size, char requestAck){
+	unsigned char response[12] = {0};								// value not used later, allocated space needed if requestAck = 1
+
 	consoleDebug("GeoAPI:\t\t\t Sending SIGFOX message");
-	return SigfoxProtocol::sendMessage(message, size, requestAck);
+	return SigfoxProtocol::sendRawMessage(message, size, requestAck, response);
 }
 
 
@@ -57,8 +59,8 @@ char Radio::sendMessage(unsigned char* message, int size, char requestAck){
 // Function: Sends raw data over an established technology and wait for response
 //**********************************************************************************************************************************
 int Radio::sendMessageAndReadResponse(unsigned char* message, int size, unsigned char* response, int timeout){
-	consoleDebug("GeoAPI:\t\t\t Sending SIGFOX message");
-	return SigfoxProtocol::sendRawDownlinkMessage(message, size, response);
+	consoleDebug("GeoAPI:\t\t\t Sending SIGFOX message");			// timeout unused in sendRawMessage as parameter
+	return SigfoxProtocol::sendRawMessage(message, size, true, response);
 }
 
 

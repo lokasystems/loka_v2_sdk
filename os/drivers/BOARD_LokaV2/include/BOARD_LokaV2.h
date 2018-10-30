@@ -93,6 +93,9 @@ public:
 	static void getFlash(const char* page, const char* name, char* value);
 	static void getFlash(const char* page, const char* param_s, char* value, int index);
 
+	static double getInputVoltageLoad();
+	static double getInputVoltageOpen();
+
 	static void enableWakeUp(unsigned int mask);
 	static void disableWakeUp(unsigned int mask);
 	static void setWakeUp(unsigned int mask);
