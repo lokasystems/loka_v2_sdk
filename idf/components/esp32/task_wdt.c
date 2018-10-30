@@ -159,6 +159,11 @@ static void task_wdt_isr(void *arg)
     }
 
     portEXIT_CRITICAL(&twdt_spinlock);
+
+// begin LOKA SYSTEMS LIMITED
+    ets_printf("ESP restarting...");
+    esp_restart();
+// end LOKA SYSTEMS LIMITED
 }
 
 /*
