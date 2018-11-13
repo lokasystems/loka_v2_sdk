@@ -48,7 +48,6 @@ void Radio::turnOff(){
 //**********************************************************************************************************************************
 char Radio::sendMessage(unsigned char* message, int size, char requestAck){
 	unsigned char response[12] = {0};								// value not used later, allocated space needed if requestAck = 1
-
 	consoleDebug("GeoAPI:\t\t\t Sending SIGFOX message");
 	return SigfoxProtocol::sendRawMessage(message, size, requestAck, response);
 }

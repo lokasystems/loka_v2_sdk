@@ -121,8 +121,6 @@ bool ProgramExample::loop() {
 		myIterationCounter++;
 		consoleDebug("%s:\t\t Hello, it's my [%ld] run iteration.", MY_PROGRAM_TAG, myIterationCounter);
 
-		consoleDebug("%s:\t\t UNCOMMENT CODE SECTIONS (in ProgramExample.cpp) to explore all functionality.\n", MY_PROGRAM_TAG);
-
 //		//**************************************************************************************************************************
 //		// Gets Device ID, MAC and PAC
 //		//**************************************************************************************************************************

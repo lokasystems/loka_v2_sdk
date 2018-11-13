@@ -291,6 +291,8 @@ NOTE: By Default in the CPU internal resistor is set to PULLUP. Otherwise "digit
 |convertTicksToMSeconds|	Converts clock ticks in miliseconds		   | Board::convertTicksToMSeconds(uint64_t ticks);																						   | ticks: Time in clock ticks																																																											   | Time in miliseconds     		  |
 |getInputVoltageLoad  |	    Gets the input load voltage          	   | Board::getInputVoltageLoad();																					                	   | None																																																											                       | Input voltage [v]                |
 |getInputVoltageOpen  |	    Gets the input open voltage          	   | Board::getInputVoltageOpen();																					                	   | None																																																											                       | Input voltage [v]                |
+|enableBatteryCheck   |  Enable the Battery Voltage Methods        	   | Board::enableBatteryCheck();																					                	   | None																																																											                       | None                             |
+|disableBatteryCheck  |	 Disable the Battery Voltage Methods       	   | Board::disableBatteryCheck();																					                	   | None																																																											                       | None                             |
 
 
 #### SIGFOX_Protocol.h

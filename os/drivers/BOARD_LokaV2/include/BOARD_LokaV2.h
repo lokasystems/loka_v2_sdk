@@ -94,6 +94,8 @@ public:
 	static void getFlash(const char* page, const char* name, char* value);
 	static void getFlash(const char* page, const char* param_s, char* value, int index);
 
+	static void enableBatteryCheck();
+	static void disableBatteryCheck();
 	static double getInputVoltageLoad();
 	static double getInputVoltageOpen();
 
